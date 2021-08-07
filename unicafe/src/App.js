@@ -1,16 +1,26 @@
+import { bool } from 'prop-types';
 import React, { useState } from 'react';
 
 const Statistics = (props) => {
   const { good, neutral, bad, all } = props;
+  const showStatistic = (good + neutral + bad > 0) ? true : false ;
+  if (showStatistic) {
+    return (
+      <div>
+        <h2>statistics</h2>
+        <p>Good: {good} </p>
+        <p>Neutral: {neutral} </p>
+        <p>Bad: {bad} </p>
+        <p>All: {all}</p>
+        <p>Average: {(good - bad) / all} </p>
+        <p>Positive: {good / all * 100}  %</p>
+      </div>
+    )
+  }
   return (
     <div>
       <h2>statistics</h2>
-      <p>Good: {good} </p>
-      <p>Neutral: {neutral} </p>
-      <p>Bad: {bad} </p>
-      <p>All: {all}</p>
-      <p>Average: {(good - bad) / all} </p>
-      <p>Positive: {good / all * 100}  %</p>
+      <p>no feedback given</p>
     </div>
   )
 }

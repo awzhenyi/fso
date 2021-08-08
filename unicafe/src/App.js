@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 
-const Statistics = (props) => {
-  const { good, neutral, bad, all } = props;
-  let showStatistic = (good + neutral + bad > 0) ? true : false ;
+const Statistics = ({ good, neutral, bad, all }) => {
+  let showStatistic = (all > 0) ? true : false ;
   if (showStatistic) {
     return (
       <div>
         <h2>statistics</h2>
-        <StatisticLine statisticText="Good" statistic={good}/>
-        <StatisticLine statisticText="Neutral" statistic={neutral}/>
-        <StatisticLine statisticText="Bad" statistic={bad}/>
-        <StatisticLine statisticText="All" statistic={all}/>
-        <StatisticLine statisticText="Average" statistic={(good - bad) / all}/>
-        <StatisticLine statisticText="Positive" statistic={good / all * 100}/>
+        <table>
+          <tbody>
+            <StatisticLine statisticText="Good" statistic={good}/>
+            <StatisticLine statisticText="Neutral" statistic={neutral}/>
+            <StatisticLine statisticText="Bad" statistic={bad}/>
+            <StatisticLine statisticText="All" statistic={all}/>
+            <StatisticLine statisticText="Average" statistic={(good - bad) / all}/>
+            <StatisticLine statisticText="Positive" statistic={good / all * 100}/>
+          </tbody>
+        </table>
       </div>
     )
   }
@@ -24,14 +27,14 @@ const Statistics = (props) => {
   )
 }
 
-const StatisticLine = (props) => {
-  if(props.statisticText === "Positive") {
+const StatisticLine = ({ statisticText, statistic }) => {
+  if(statisticText === "Positive") {
     return (
-      <p>{props.statisticText}: {props.statistic} %</p>
+      <tr><td>{statisticText}: {statistic} %</td></tr>
     )
   }
   return (
-    <p>{props.statisticText}: {props.statistic}</p>
+    <tr><td>{statisticText}: {statistic}</td></tr>
   )
 }
 

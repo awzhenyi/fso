@@ -1,19 +1,18 @@
-import { bool } from 'prop-types';
 import React, { useState } from 'react';
 
 const Statistics = (props) => {
   const { good, neutral, bad, all } = props;
-  const showStatistic = (good + neutral + bad > 0) ? true : false ;
+  let showStatistic = (good + neutral + bad > 0) ? true : false ;
   if (showStatistic) {
     return (
       <div>
         <h2>statistics</h2>
-        <p>Good: {good} </p>
-        <p>Neutral: {neutral} </p>
-        <p>Bad: {bad} </p>
-        <p>All: {all}</p>
-        <p>Average: {(good - bad) / all} </p>
-        <p>Positive: {good / all * 100}  %</p>
+        <StatisticLine statisticText="Good" statistic={good}/>
+        <StatisticLine statisticText="Neutral" statistic={neutral}/>
+        <StatisticLine statisticText="Bad" statistic={bad}/>
+        <StatisticLine statisticText="All" statistic={all}/>
+        <StatisticLine statisticText="Average" statistic={(good - bad) / all}/>
+        <StatisticLine statisticText="Positive" statistic={good / all * 100}/>
       </div>
     )
   }
@@ -22,6 +21,23 @@ const Statistics = (props) => {
       <h2>statistics</h2>
       <p>no feedback given</p>
     </div>
+  )
+}
+
+const StatisticLine = (props) => {
+  if(props.statisticText === "Positive") {
+    return (
+      <p>{props.statisticText}: {props.statistic} %</p>
+    )
+  }
+  return (
+    <p>{props.statisticText}: {props.statistic}</p>
+  )
+}
+
+const Button = (props) => {
+  return (
+    <button onClick={props.handleClick}> {props.buttonText} </button>
   )
 }
 
@@ -34,9 +50,9 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-      <button onClick={() => setGood(good + 1)}>good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-      <button onClick={() => setBad(bad + 1)}>bad</button>
+      <Button handleClick={() => setGood(good + 1)} buttonText="good"/>
+      <Button handleClick={() => setNeutral(neutral + 1)} buttonText="neutral" />      
+      <Button handleClick={() => setBad(bad + 1)} buttonText="bad" />      
       <Statistics good={good} neutral={neutral} bad={bad} all={all}/>
     </div>
   );

@@ -1,4 +1,3 @@
-import { thisExpression } from '@babel/types'
 import React, { useState } from 'react'
 
 const App = () => {
@@ -13,19 +12,26 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [allVotes, setAllVotes] = useState(Array(6).fill(0))
 
   const generate = () => {
     return Math.floor(Math.random() * anecdotes.length);
   }
 
+  const addVotes = () => {
+    const copy = [...allVotes]
+    copy[selected] += 1;
+    setAllVotes(copy);
+  }
+
   return (
     <div>
       {anecdotes[selected]}
+      <p>has {allVotes[selected]} votes</p>
       <div>
         <button onClick={()=>setSelected(generate())}>Generate next anecdote</button>
-        <button>vote</button>
+        <button onClick={addVotes}>vote</button>
       </div>
-
     </div>
   )
 }

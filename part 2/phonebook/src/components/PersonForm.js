@@ -7,14 +7,14 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
     }
 
     const handleNameChange = (event) => {
-    setNewName(event.target.value)
+        setNewName(event.target.value)
     }
     
     const addPerson = (event) => {
-    event.preventDefault();
-    const personToAdd = {
-        name : newName,
-        number : newNumber,
+        event.preventDefault();
+        const personToAdd = {
+            name : newName,
+            number : newNumber,
     }
 
     if (persons.some((person) => (person.name===personToAdd.name && person.number===personToAdd.number))) {

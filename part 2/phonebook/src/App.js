@@ -10,6 +10,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     axios
@@ -22,7 +23,10 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      {successMessage !== null ? 
+        <div className="message">{successMessage}</div>
+        : null}
       <h2>Filter By</h2>
       <Filter 
       newFilter={newFilter}
@@ -36,14 +40,18 @@ const App = () => {
         setNewName={setNewName}
         newNumber={newNumber}
         setNewNumber={setNewNumber}
-
+        setSuccessMessage={setSuccessMessage}
       />
       <h2>Numbers</h2>
       {persons.filter((person)=>person.name.toLowerCase().includes(newFilter)).map((person)=>
       <Persons
-        key={person.name}
+        key={person.id}
+        id={person.id}
         personName={person.name}
         personNumber={person.number}
+        persons={persons}
+        setPersons={setPersons}
+        setSuccessMessage={setSuccessMessage}
       />
       )}
     </div>

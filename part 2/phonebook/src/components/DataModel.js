@@ -3,14 +3,16 @@ const mapJsonToPersons = (json) => {
     json.forEach((person) => {
         const {
             name,
-            number
+            number,
+            id
         } = person
 
         const mappedPerson = {
+            id,
             name,
             number
         }
-
+        
         persons.push(mappedPerson);
     })
 

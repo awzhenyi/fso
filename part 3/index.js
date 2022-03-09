@@ -1,6 +1,15 @@
+const { request } = require('express')
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 app.use(express.json())
+morgan.token('requestBody', (request) => {
+  if (request.method === 'POST') {
+    return JSON.stringify(request.body)
+  }
+  return ''
+})
+app.use(morgan(':method :url :status :response-time ms :requestBody'))
 
 let persons = [
     {
@@ -25,6 +34,8 @@ let persons = [
     }
 ]
 
+
+
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
@@ -42,6 +53,12 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
+  if (persons.filter((person) => person.id === id).length === 0) {
+    return response.status(400).json({
+      error_code: "400",
+      error: "invalid id, no entry with the given id exists"
+    })
+  }
   persons = persons.filter((person) => person.id !== id)
   response.status(204).end()
 })
@@ -52,14 +69,16 @@ app.post('/api/persons', (request, response) => {
     : 0
   const person = request.body
 
-  if(!person.content) {
+  if(person.content === null) {
     return response.status(400).json({
+      error_code: "400",
       error: "missing content"
     })
   }
 
   if(persons.filter((p) => p.name === person.name).length > 0) {
     return response.status(400).json({
+      errorCode: "400",
       error: "name already exists, must be unique"
     })
   }
